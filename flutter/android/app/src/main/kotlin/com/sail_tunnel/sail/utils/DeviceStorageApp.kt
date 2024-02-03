@@ -3,9 +3,13 @@ package com.sail_tunnel.sail.utils
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import androidx.work.Configuration
+import androidx.work.WorkManager
+import androidx.work.WorkerFactory
 
 @SuppressLint("Registered")
-class DeviceStorageApp(context: Context) : Application() {
+class DeviceStorageApp(context: Context) : Application(), Configuration.Provider {
+
     init {
         attachBaseContext(context.createDeviceProtectedStorageContext())
     }
@@ -15,4 +19,10 @@ class DeviceStorageApp(context: Context) : Application() {
      * protected storage.
      */
     override fun getApplicationContext() = this
+
+    override fun getWorkManagerConfiguration(): Configuration {
+        return Configuration.Builder()
+            .setWorkerFactory(WorkerFactory.getInstance())
+            .build()
+    }
 }
