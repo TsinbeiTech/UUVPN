@@ -1,5 +1,5 @@
 class AppStrings {
-  static const String appName = 'UUVPN';
+  static const String appName = 'TB.AL';
   static const String token = 'token';
   static const String authData = 'auth_data';
   static const String userInfo = 'USER_INFO';
