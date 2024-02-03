@@ -2,36 +2,37 @@ name: Flutter
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main, master ]
 
 jobs:
-  build:
+  build_apk:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     - uses: subosito/flutter-action@v2
-    
       with:
         flutter-version: '3.10.1'
-        channel: 'stable'
-    - name: Install dependencies
-      run: flutter pub get
-      working-directory: ./flutter
-
-    - name: Update dependencies
-      run: flutter pub upgrade
-      working-directory: ./flutter
-
-
-    - name: Build apk
-      run: flutter build apk
-      working-directory: ./flutter
-
-
-    - name: Upload
-      uses: actions/upload-artifact@v4
+    - run: flutter pub get
+    - run: flutter build apk
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
       with:
-        name: code-coverage-report
-        path: ./flutter/build/app/outputs/flutter-apk/app-release.apk
+        name: silversabres.${{ github.sha }}.android
+        path: build/app/outputs/flutter-apk/app-release.apk
+    
+  build_ios:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.10.1'
+    - run: flutter pub get
+    - run: flutter build ios --release --no-codesign
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: silversabres.${{ github.sha }}.ios
+        path: build/ios/iphoneos/Runner.app
