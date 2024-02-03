@@ -15,12 +15,14 @@ jobs:
       with:
         flutter-version: '3.10.1'
     - run: flutter pub get
+      working-directory: ./flutter
     - run: flutter build apk
+      working-directory: ./flutter
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
         name: silversabres.${{ github.sha }}.android
-        path: build/app/outputs/flutter-apk/app-release.apk
+        path: ./flutter/build/app/outputs/flutter-apk/app-release.apk
     
   build_ios:
     runs-on: macos-latest
@@ -30,9 +32,11 @@ jobs:
       with:
         flutter-version: '3.10.1'
     - run: flutter pub get
+      working-directory: ./flutter
     - run: flutter build ios --release --no-codesign
+      working-directory: ./flutter
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
         name: silversabres.${{ github.sha }}.ios
-        path: build/ios/iphoneos/Runner.app
+        path: ./flutter/build/ios/iphoneos/Runner.app
