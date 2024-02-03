@@ -21,8 +21,9 @@ class DeviceStorageApp(context: Context) : Application(), Configuration.Provider
     override fun getApplicationContext() = this
 
     override fun getWorkManagerConfiguration(): Configuration {
+        val workerFactory = WorkerFactory.getInstance()
         return Configuration.Builder()
-            .setWorkerFactory(WorkerFactory.getInstance())
+            .setWorkerFactory(workerFactory)
             .build()
     }
 }
