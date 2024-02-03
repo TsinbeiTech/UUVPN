@@ -18,7 +18,7 @@ enum VpnStatus {
 class VpnManager {
   Future<VpnStatus> getStatus() async {
     // Native channel
-    const platform = MethodChannel("com.prosfinityx.ang/vpn_manager");
+    const platform = MethodChannel("com.sail_tunnel.sail/vpn_manager");
 
     if (!Platform.isIOS) {
       bool? result = await platform.invokeMethod("getStatus");
@@ -26,19 +26,6 @@ class VpnManager {
     }
     int result;
     try {
-      result = await platform.invokeMethod("getStatus");
-    } on PlatformException catch (e) {
-      print(e.toString());
-
-      rethrow;
-    }
-    return VpnStatus.values.firstWhere((e) => e.code == result);
-  }
-
-    int result;
-    try {
-      // bool xxx = await platform.invokeMethod("getStatus");
-      // result = xxx ? 1 : 0;
       result = await platform.invokeMethod("getStatus");
     } on PlatformException catch (e) {
       print(e.toString());
